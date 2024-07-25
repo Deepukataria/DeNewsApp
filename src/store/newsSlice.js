@@ -1,20 +1,21 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
+const NEWS_API_KEY = `${import.meta.env.VITE_APP_API_KEY}`;
 const BASE_URL = "https://newsapi.org/v2/top-headlines";
 
 export const fetchArticles = createAsyncThunk(
   "news/fetchArticles",
   async ({ category, page, searchQuery }, { rejectWithValue }) => {
     try {
-      let url = `${BASE_URL}?country=us&pageSize=12&page=${page}&apiKey=384aac4121ad4096bd71034f26f0ede1`;
+      let url = `${BASE_URL}?country=us&pageSize=12&page=${page}&apiKey=${NEWS_API_KEY}`;
       if (searchQuery) {
         url = `https://newsapi.org/v2/everything?q=${searchQuery}&pageSize=12&page=${page}&apiKey=${NEWS_API_KEY}`;
       } else {
         url += `&category=${category}`;
       }
       const response = await axios.get(url,{
-        withCredentials: true
+        withCredentials: false
       });
       return response.data;
     } catch (error) {
