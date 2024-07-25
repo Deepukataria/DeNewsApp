@@ -14,7 +14,9 @@ export const fetchArticles = createAsyncThunk(
       } else {
         url += `&category=${category}`;
       }
-      const response = await axios.get(url);
+      const response = await axios.get(url,{
+        withCredentials: true
+      });
       return response.data;
     } catch (error) {
       if (error.response) {
